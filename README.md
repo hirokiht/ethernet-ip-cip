@@ -4,14 +4,14 @@
   <a href="https://github.com/hirokiht/node-ethernet-ip/blob/master/LICENSE"><img src="https://img.shields.io/github/license/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="license" /></a>
   <img src="https://img.shields.io/travis/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="Travis" />
   <img src="https://img.shields.io/coveralls/github/cmseaton42/node-ethernet-ip.svg?style=flat-square" alt="Coveralls github" />
-  <a href="https://github.com/hirokiht/node-ethernet-ip"><img src="https://img.shields.io/github/stars/hirokiht/node-ethernet-ip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a>i
+  <a href="https://github.com/hirokiht/node-ethernet-ip"><img src="https://img.shields.io/github/stars/hirokiht/node-ethernet-ip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a>
   </p>
 </div>
 
 
 # Node Ethernet/IP for CIP
 
-A simple and node.js based API for Ethernet/IP focused on CIP Adapters and Scannners
+A simple and node.js based API for Ethernet/IP focused on CIP Adapters and Scannners  
 based on [node-ethernet-ip](https://github.com/cmseaton42/node-ethernet-ip)
 
 ## Prerequisites
