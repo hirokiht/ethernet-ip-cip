@@ -1,4 +1,3 @@
-const { EthernetIP } = require('ethernet-ip')
 const { LOGICAL } = require("./epath").segments
 const { MessageRouter } = require("./message-router")
 
