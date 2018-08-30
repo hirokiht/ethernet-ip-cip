@@ -1,29 +1,29 @@
-<p align="center"><img width="280" src="https://i.imgur.com/HNxhZox.png" alt="Vue logo"></p>
-
 <div align="center">
-  <p><a href="https://www.npmjs.com/package/ethernet-ip"><img src="https://img.shields.io/npm/v/ethernet-ip.svg?style=flat-square" alt="npm" /></a>
-  <a href="https://gitter.im/node-ethernet-ip/Lobby"><img src="https://img.shields.io/gitter/room/node-ethernet-ip/nw.js.svg?style=flat-square" alt="Gitter" /></a>
-  <a href="https://github.com/cmseaton42/node-ethernet-ip/blob/master/LICENSE"><img src="https://img.shields.io/github/license/cmseaton42/node-ethernet-ip.svg?style=flat-square" alt="license" /></a>
-  <img src="https://img.shields.io/travis/cmseaton42/node-ethernet-ip.svg?style=flat-square" alt="Travis" />
+  <p>
+  <a href="https://www.npmjs.com/package/ethernet-ip-cip"><img src="https://img.shields.io/npm/v/ethernet-ip-cip.svg?style=flat-square" alt="npm" /></a>
+  <a href="https://github.com/hirokiht/node-ethernet-ip/blob/master/LICENSE"><img src="https://img.shields.io/github/license/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="license" /></a>
+  <img src="https://img.shields.io/travis/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="Travis" />
   <img src="https://img.shields.io/coveralls/github/cmseaton42/node-ethernet-ip.svg?style=flat-square" alt="Coveralls github" />
-  <a href="https://github.com/cmseaton42/node-ethernet-ip"><img src="https://img.shields.io/github/stars/cmseaton42/node-ethernet-ip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a></p>
+  <a href="https://github.com/hirokiht/node-ethernet-ip"><img src="https://img.shields.io/github/stars/hirokiht/node-ethernet-ip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a>i
+  </p>
 </div>
 
 
-# Node Ethernet/IP
+# Node Ethernet/IP for CIP
 
-A simple and lightweight node based API for interfacing with Rockwell Control/CompactLogix PLCs.
+A simple and node.js based API for Ethernet/IP focused on CIP Adapters and Scannners
+based on [node-ethernet-ip](https://github.com/cmseaton42/node-ethernet-ip)
 
 ## Prerequisites
 
-latest version of [NodeJS](https://nodejs.org/en/)
+LTS or newer Version of [NodeJS](https://nodejs.org/en/)
 
 ## Getting Started
 
 Install with npm
 
 ```
-npm install ethernet-ip --save
+npm install ethernet-ip-cip
 ```
 ## The API
 
@@ -274,18 +274,6 @@ PLC.forEach(tag => {
 })
 ```
 
-## Built With
-
-* [NodeJS](https://nodejs.org/en/) - The Engine
-* [javascript - ES2017](https://maven.apache.org/) - The Language
-
-## Contributers
-
-* **Canaan Seaton** - *Owner* - [GitHub Profile](https://github.com/cmseaton42) - [Personal Website](http://www.canaanseaton.com/)
-* **Patrick McDonagh** - *Collaborator* - [GitHub Profile](https://github.com/patrickjmcd)
-
-Wanna *become* a contributor? [Here's](https://github.com/cmseaton42/node-ethernet-ip/blob/master/CONTRIBUTING.md) how!
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENCE](https://github.com/cmseaton42/node-ethernet-ip/blob/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENCE](https://github.com/hirokiht/node-ethernet-ip/blob/master/LICENSE) file for details
