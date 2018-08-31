@@ -25,8 +25,8 @@ const transport = {
 }
 
 const paths = {
-  CONNECTION_MANAGER = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x06), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
-  MESSAGE_ROUTER = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x02), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
+  CONNECTION_MANAGER: Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x06), LOGICAL.build(LOGICAL.types.InstanceID, 1)]),
+  MESSAGE_ROUTER: Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x02), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
 }
 
 const VENDOR_ID = 0x1337
