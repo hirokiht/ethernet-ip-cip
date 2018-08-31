@@ -90,7 +90,7 @@ const ForwardOpen = {
     if (typeof toSize !== 'number' || typeof otSize !== 'number' || otSize > 0xFFFF || toSize > 0xFFFF || otSize < 0 || toSize < 0) throw new Error('Invalid Connection Size')
     if (typeof serial !== 'number' || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
     if (typeof ttt !== 'number' || ttt > 255 || ttt < 0 ) throw new Error('Invalid Transport Type/Trigger')
-    if(path !== null && !Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
+    if (!Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
     if (typeof timeout !== 'number' || timeout < 100) timeout = 1000
 
     const buf = Buffer.alloc((otSize > 0x1FF || toSize > 0x1FF)? 40 : 36)
@@ -148,7 +148,8 @@ const ForwardOpen = {
  * @returns {buffer}
  */
 const ForwardClose = {
-  build: (serial = 0x1337, timeout = 1000) => {
+  build: (path = Buffer.alloc(0), serial = 0x1337, timeout = 1000) => {
+    if (!Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
     if (typeof serial !== 'number' || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
     if (typeof timeout !== 'number' || timeout < 100) timeout = 1000
 
@@ -157,9 +158,9 @@ const ForwardClose = {
     buf.writeUInt16LE(serial, 2)
     buf.writeUInt16LE(VENDOR_ID, 4)
     buf.writeUInt32LE(SERIAL_NO, 6)
-    buf.writeUInt8(0, 10)
+    buf.writeUInt8(Math.ceil(path.length / 2), 10)
 
-    return MessageRouter.build(services.FORWARD_CLOSE, CONNECTION_MANAGER_PATH, buf)
+    return MessageRouter.build(services.FORWARD_CLOSE, CONNECTION_MANAGER_PATH, Buffer.concat([buf, path]))
   },
   parse: (buf) => {
     if(!Buffer.isBuffer(buf) || buf.length < 10)
