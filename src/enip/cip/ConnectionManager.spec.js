@@ -61,4 +61,10 @@ describe('Connection Manager', () => {
     expect(ForwardClose.build(0x1234).toMatchSnapshot()
     expect(ForwardClose.build(0x4321, asmPath)).toMatchSnapshot()
   })
+
+  describe('UnconnectedSend', () => {
+    const msgReq = Buffer.from('0e0521000100250002003003')
+    const port1 = Buffer.from('0101')
+    expect(UnconnectedSend.build(msgReq, port1)).toMatchSnapshot()
+  })
 })
