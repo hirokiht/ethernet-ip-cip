@@ -1,5 +1,4 @@
 const { Socket, isIPv4 } = require('net')
-const { EIP_PORT } = require('../config')
 const encapsulation = require('./encapsulation')
 const CIP = require('./cip')
 const { promiseTimeout } = require('../utilities')
@@ -86,10 +85,12 @@ class ENIP extends Socket {
      * @returns {Promise}
      * @memberof ENIP
      */
-  async connect(IP_ADDR) {
+  async connect(IP_ADDR, EIP_PORT = 0x8AE) {
     if (!IP_ADDR) {
       throw new Error('Controller <class> requires IP_ADDR <string>!!!')
     }
+    if (typeof EIP_PORT !== 'number' || EIP_PORT < 0 || EIP_PORT > 0xFFFF)
+      throw new Error('Invalid Ethernet/IP port!')
     await new Promise((resolve, reject) => {
       lookup(IP_ADDR, (err, addr) => {
         if (err) reject(new Error('DNS Lookup failed for IP_ADDR ' + IP_ADDR))
