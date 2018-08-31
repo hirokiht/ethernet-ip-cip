@@ -24,9 +24,10 @@ const transport = {
   class: [0, 1, 2, 3]
 }
 
-const CONNECTION_MANAGER_PATH = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x06), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
-
-const MESSAGE_ROUTER_PATH = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x02), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
+const paths = {
+  CONNECTION_MANAGER = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x06), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
+  MESSAGE_ROUTER = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x02), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
+}
 
 const VENDOR_ID = 0x1337
 const SERIAL_NO = 0xDEADBEEF
@@ -79,12 +80,12 @@ const generateEncodedTimeout = (timeout, buf) => {
  * @param {number} [toSize=0x1FF] T->O Maximum Connection Size
  * @param {number} [serial=0x1337] - Connection Serial Number
  * @param {number} [ttt=(SERVER|class[3])] - Transport Type/Trigger
- * @param {buffer} [path=MESSAGE_ROUTER_PATH] - Padded EPATH Buffer
+ * @param {buffer} [path=MESSAGE_ROUTER] - Padded EPATH Buffer
  * @param {number} [timeout=2000] - timeout
  * @returns {buffer}
  */
 const ForwardOpen = {
-  build: (rpi, otConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), otSize = 0x1FF, toConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), toSize = 0x1FF, serial = 0x1337, ttt = (transport.direction.SERVER | transport.class[3]), path = MESSAGE_ROUTER_PATH, timeout = 2000) => {
+  build: (rpi, otConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), otSize = 0x1FF, toConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), toSize = 0x1FF, serial = 0x1337, ttt = (transport.direction.SERVER | transport.class[3]), path = paths.MESSAGE_ROUTER, timeout = 2000) => {
     if (typeof rpi !== 'number' || rpi > 0xFFFFFFFF || rpi < 10000 ) throw new Error('RPI must be >= 10ms')
     if (typeof toConn !== 'number' || typeof otConn !== 'number' || otConn > 0xFFFF || toConn > 0xFFFF || otConn < 0 || toConn < 0) throw new Error('Invalid Connection Parameter')
     if (typeof toSize !== 'number' || typeof otSize !== 'number' || otSize > 0xFFFF || toSize > 0xFFFF || otSize < 0 || toSize < 0) throw new Error('Invalid Connection Size')
@@ -112,7 +113,7 @@ const ForwardOpen = {
     buf.writeUInt8(ttt, buf.length === 36? 34 : 38)
     buf.writeUInt8(Math.ceil(path.length / 2), buf.length === 36? 35 : 39)
 
-    return MessageRouter.build((otSize > 0x1FF || toSize > 0x1FF)? services.LARGE_FORWARD_OPEN : services.FORWARD_OPEN, CONNECTION_MANAGER_PATH, Buffer.concat([buf, path]))
+    return MessageRouter.build((otSize > 0x1FF || toSize > 0x1FF)? services.LARGE_FORWARD_OPEN : services.FORWARD_OPEN, paths.CONNECTION_MANAGER, Buffer.concat([buf, path]))
   },
   parse: (buf) => {
     if(buf.length === 10)
@@ -160,7 +161,7 @@ const ForwardClose = {
     buf.writeUInt32LE(SERIAL_NO, 6)
     buf.writeUInt8(Math.ceil(path.length / 2), 10)
 
-    return MessageRouter.build(services.FORWARD_CLOSE, CONNECTION_MANAGER_PATH, Buffer.concat([buf, path]))
+    return MessageRouter.build(services.FORWARD_CLOSE, paths.CONNECTION_MANAGER, Buffer.concat([buf, path]))
   },
   parse: (buf) => {
     if(!Buffer.isBuffer(buf) || buf.length < 10)
@@ -201,7 +202,7 @@ const UnconnectedSend = {
     pathLenBuf.writeUInt8(0, 1) //Reserved
 
     const padBuf = Buffer.alloc(msgReq.length % 2)
-    return MessageRouter.build(services.UNCONNECTED_SEND, CONNECTION_MANAGER_PATH, Buffer.concat([buf, msgReq, padBuf, pathLenBuf, path]))
+    return MessageRouter.build(services.UNCONNECTED_SEND, paths.CONNECTION_MANAGER, Buffer.concat([buf, msgReq, padBuf, pathLenBuf, path]))
   }, 
   parse: buf => {
     if(!Buffer.isBuffer(buf))
@@ -210,4 +211,4 @@ const UnconnectedSend = {
   }
 }
 
-module.exports = { services, ForwardOpen, connection, transport, LargeForwardOpen: ForwardOpen, ForwardClose, UnconnectedSend }
+module.exports = { services, ForwardOpen, connection, transport, LargeForwardOpen: ForwardOpen, ForwardClose, UnconnectedSend, paths }
