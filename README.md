@@ -1,10 +1,11 @@
 <div align="center">
   <p>
   <a href="https://www.npmjs.com/package/ethernet-ip-cip"><img src="https://img.shields.io/npm/v/ethernet-ip-cip.svg?style=flat-square" alt="npm" /></a>
-  <a href="https://github.com/hirokiht/node-ethernet-ip/blob/master/LICENSE"><img src="https://img.shields.io/github/license/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="license" /></a>
-  <img src="https://img.shields.io/travis/hirokiht/node-ethernet-ip.svg?style=flat-square" alt="Travis" />
-  <img src="https://img.shields.io/coveralls/github/cmseaton42/node-ethernet-ip.svg?style=flat-square" alt="Coveralls github" />
-  <a href="https://github.com/hirokiht/node-ethernet-ip"><img src="https://img.shields.io/github/stars/hirokiht/node-ethernet-ip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a>
+  <a href="https://github.com/hirokiht/ethernet-ip-cip/blob/master/LICENSE"><img src="https://img.shields.io/github/license/hirokiht/ethernet-ip-cip.svg?style=flat-square" alt="license" /></a>
+  <img src="https://img.shields.io/travis/hirokiht/ethernet-ip-cip.svg?style=flat-square" alt="Travis" />
+  [![Coverage Status](https://coveralls.io/repos/github/hirokiht/ethernet-ip-cip/badge.svg?branch=master)](https://coveralls.io/github/hirokiht/ethernet-ip-cip?branch=master)
+  <img src="https://img.shields.io/coveralls/github/hirokiht/ethernet-ip-cip.svg?style=flat-square" alt="Coveralls github" />
+  <a href="https://github.com/hirokiht/ethernet-ip-cip"><img src="https://img.shields.io/github/stars/hirokiht/ethernet-ip-cip.svg?&amp;style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars" /></a>
   </p>
 </div>
 
