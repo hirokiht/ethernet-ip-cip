@@ -58,8 +58,9 @@ describe('Connection Manager', () => {
 
   describe('ForwardClose', () => {
     let asmPath = Buffer.from('2004246630643065')
-    expect(ForwardClose.build(0x1234)).toMatchSnapshot()
-    expect(ForwardClose.build(0x4321, asmPath)).toMatchSnapshot()
+    expect(ForwardClose.build()).toMatchSnapshot()
+    expect(ForwardClose.build(asmPath)).toMatchSnapshot()
+    expect(ForwardClose.build(asmPath, 0x4321)).toMatchSnapshot()
   })
 
   describe('UnconnectedSend', () => {

@@ -1,5 +1,5 @@
 const { LOGICAL } = require('./epath').segments
-const { MessageRouter } = require('./message-router')
+const MessageRouter = require('./message-router')
 
 const services = {
   FORWARD_CLOSE: 0x4E,
