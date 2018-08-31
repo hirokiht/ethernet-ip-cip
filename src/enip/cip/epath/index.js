@@ -1,3 +1,3 @@
-const segments = require("./segments");
+const segments = require('./segments')
 
-module.exports = { segments };
+module.exports = { segments }

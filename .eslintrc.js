@@ -14,10 +14,10 @@ module.exports = {
         }
     },
     rules: {
-        indent: ["error", 4],
+        indent: ["error", 2],
         "no-console": 0,
-        quotes: ["error", "double"],
-        semi: ["error", "always"],
+        quotes: ["error", "single"],
+        semi: ["error", "never"],
         "jest/no-disabled-tests": "warn",
         "jest/no-focused-tests": "error",
         "jest/no-identical-title": "error",

@@ -1,5 +1,5 @@
-const { LOGICAL } = require("./epath").segments
-const { MessageRouter } = require("./message-router")
+const { LOGICAL } = require('./epath').segments
+const { MessageRouter } = require('./message-router')
 
 const services = {
   FORWARD_CLOSE: 0x4E,
@@ -19,9 +19,9 @@ const connection = {
 }
 
 const transport = {
-    direction: {SERVER: 1<<7, CLIENT: 0<<7},
-    trigger: {CYCLIC: 0, CHG_OF_STATE: 1<<4, APP_OBJ: 2<<4}, //for client only
-    class: [0, 1, 2, 3]
+  direction: {SERVER: 1<<7, CLIENT: 0<<7},
+  trigger: {CYCLIC: 0, CHG_OF_STATE: 1<<4, APP_OBJ: 2<<4}, //for client only
+  class: [0, 1, 2, 3]
 }
 
 const CONNECTION_MANAGER_PATH = Buffer.concat([LOGICAL.build(LOGICAL.types.ClassID, 0x06), LOGICAL.build(LOGICAL.types.InstanceID, 1)])
@@ -46,27 +46,27 @@ const TIMEOUT_MPY = 0 //RPIx4
  * @returns {UCMMSendTimeout}
  */
 const generateEncodedTimeout = (timeout, buf) => {
-    if (timeout <= 0 || typeof timeout !== 'number')
-        throw new Error('Timeouts Must be Positive Integers')
-    if (!Buffer.isBuffer(buf) || buf.length < 2) throw new Error('Invalid Buffer')
+  if (timeout <= 0 || typeof timeout !== 'number')
+    throw new Error('Timeouts Must be Positive Integers')
+  if (!Buffer.isBuffer(buf) || buf.length < 2) throw new Error('Invalid Buffer')
 
-    let diff = Infinity // let difference be very large
-    let time_tick = 0, ticks = 0
+  let diff = Infinity // let difference be very large
+  let time_tick = 0, ticks = 0
 
-    // Search for Best Timeout Encoding Values
-    for (let i = 0 ; i < 16 ; i++) {
-        for (let j = 1 ; j < 256 ; j++) {
-            const newDiff = Math.abs(timeout - (1 << i) * j)
-            if (newDiff < diff) {
-                diff = newDiff
-                time_tick = i
-                ticks = j
-            }
-        }
+  // Search for Best Timeout Encoding Values
+  for (let i = 0 ; i < 16 ; i++) {
+    for (let j = 1 ; j < 256 ; j++) {
+      const newDiff = Math.abs(timeout - (1 << i) * j)
+      if (newDiff < diff) {
+        diff = newDiff
+        time_tick = i
+        ticks = j
+      }
     }
+  }
 
-    buf.writeUInt8(time_tick, 0)
-    buf.writeUInt8(ticks, 1)
+  buf.writeUInt8(time_tick, 0)
+  buf.writeUInt8(ticks, 1)
 }
 
 /**
@@ -199,7 +199,7 @@ const UnconnectedSend = {
     pathLenBuf.writeUInt8(Math.ceil(path.length / 2), 0)
     pathLenBuf.writeUInt8(0, 1) //Reserved
 
-    const padBuf = Buffer.alloc(msgReqLen % 2)
+    const padBuf = Buffer.alloc(msgReq.length % 2)
     return MessageRouter.build(services.UNCONNECTED_SEND, CONNECTION_MANAGER_PATH, Buffer.concat([buf, msgReq, padBuf, pathLenBuf, path]))
   },
   parse: MessageRouter.parse

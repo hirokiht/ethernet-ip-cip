@@ -7,12 +7,12 @@
  * @returns {Promise}
  * @memberof Controller
  */
-const promiseTimeout = (promise, ms, error = new Error("ASYNC Function Call Timed Out!!!")) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => reject(error), ms);
-        promise.then(resolve).catch(reject);
-    });
-};
+const promiseTimeout = (promise, ms, error = new Error('ASYNC Function Call Timed Out!!!')) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(error), ms)
+    promise.then(resolve).catch(reject)
+  })
+}
 
 /**
  * Delays X ms
@@ -20,6 +20,6 @@ const promiseTimeout = (promise, ms, error = new Error("ASYNC Function Call Time
  * @param {number} ms - Delay Length (ms)
  * @returns {Promise}
  */
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-module.exports = { promiseTimeout, delay };
+module.exports = { promiseTimeout, delay }
