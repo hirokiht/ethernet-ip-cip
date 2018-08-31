@@ -201,8 +201,12 @@ const UnconnectedSend = {
 
     const padBuf = Buffer.alloc(msgReq.length % 2)
     return MessageRouter.build(services.UNCONNECTED_SEND, CONNECTION_MANAGER_PATH, Buffer.concat([buf, msgReq, padBuf, pathLenBuf, path]))
-  },
-  parse: MessageRouter.parse
+  }, 
+  parse: buf => {
+    if(!Buffer.isBuffer(buf) || buf.length < 4)
+      return null
+    return MessageRouter.parse(buf)
+  }
 }
 
 module.exports = { services, ForwardOpen, connection, transport, LargeForwardOpen: ForwardOpen, ForwardClose, UnconnectedSend }
