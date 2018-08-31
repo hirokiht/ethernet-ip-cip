@@ -31,4 +31,16 @@ describe('Connection Manager', () => {
       expect(paths.MESSAGE_ROUTER.toString('hex')).toEqual('20022401')
     })
   })
+
+  describe('ForwardOpen', () => {
+    let asmPath = Buffer.from('2004246630643065')
+    let otCon = connection.size.FIXED | connection.priority.LOW | connection.type.P2P
+    let toCon = connection.size.VARIABLE | connection.priority.HIGH | connection.type.MULTICAST
+    expect(ForwardOpen.build(100000, otCon, 255, toCon, 500, 0x1234, transport.direction.CLIENT|transport.class[1], paths.MESSAGE_ROUTER, 1024))
+      .toMatchSnapshot()
+    otCon = connection.size.VARIABLE | connection.priority.SCHEDULED | connection.type.MUTLICAST
+    toCon = connection.size.FIXED | connection.priority.URGENT | connection.type.P2P
+    expect(ForwardOpen.build(200000, toCon, 511, toCon, 200, 0x4321, transport.direction.SERVER|transport.class[3], asmPath, 2048))
+      .toMatchSnapshot()
+  })
 })
