@@ -55,4 +55,10 @@ describe('Connection Manager', () => {
     expect(LargeForwardOpen.build(200000, toCon, 511, toCon, 1200, 0x4321, transport.direction.SERVER|transport.class[2], asmPath, 2048))
       .toMatchSnapshot()
   })
+
+  describe('ForwardClose', () => {
+    let asmPath = Buffer.from('2004246630643065')
+    expect(ForwardClose.build(0x1234).toMatchSnapshot()
+    expect(ForwardClose.build(0x4321, asmPath)).toMatchSnapshot()
+  })
 })
