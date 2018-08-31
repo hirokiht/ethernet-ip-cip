@@ -203,9 +203,9 @@ const UnconnectedSend = {
     return MessageRouter.build(services.UNCONNECTED_SEND, CONNECTION_MANAGER_PATH, Buffer.concat([buf, msgReq, padBuf, pathLenBuf, path]))
   }, 
   parse: buf => {
-    if(!Buffer.isBuffer(buf) || buf.length < 4)
+    if(!Buffer.isBuffer(buf))
       return null
-    return MessageRouter.parse(buf)
+    return buf.length <= 2 ? { remainingPathSize: buf.readUInt8(0) } : { data: buf }
   }
 }
 
