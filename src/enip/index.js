@@ -85,7 +85,7 @@ class ENIP extends Socket {
      * @returns {Promise}
      * @memberof ENIP
      */
-  async connect(IP_ADDR, EIP_PORT = 0x8AE) {
+  async connect(IP_ADDR, EIP_PORT = 0xAF12) {
     if (!IP_ADDR) {
       throw new Error('Controller <class> requires IP_ADDR <string>!!!')
     }
