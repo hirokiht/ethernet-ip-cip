@@ -108,12 +108,12 @@ const ForwardOpen = {
     else buf.writeUInt32LE(otConn << 16 | otSize, 26)
     buf.writeUInt32LE(rpi, buf.length === 36 ? 28 : 30)	//T->O RPI
     if(buf.length === 36)
-      buf.writeUInt16LE(toConn, 32)
+      buf.writeUInt16LE(toConn | toSize, 32)
     else buf.writeUInt32LE(toConn << 16 | toSize, 34)
     buf.writeUInt8(ttt, buf.length === 36? 34 : 38)
     buf.writeUInt8(Math.ceil(path.length / 2), buf.length === 36? 35 : 39)
 
-    return MessageRouter.build((otSize > 0x1FF || toSize > 0x1FF)? services.LARGE_FORWARD_OPEN : services.FORWARD_OPEN, paths.CONNECTION_MANAGER, Buffer.concat([buf, path]))
+    return MessageRouter.build( buf.length === 40 ? services.LARGE_FORWARD_OPEN : services.FORWARD_OPEN, paths.CONNECTION_MANAGER, Buffer.concat([buf, path]))
   },
   parse: (buf) => {
     if(buf.length === 10)
