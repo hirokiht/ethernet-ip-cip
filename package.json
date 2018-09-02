@@ -1,6 +1,6 @@
 {
     "name": "ethernet-ip-cip",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "description": "A simple node.js Ethernet/IP API focused on CIP implementation",
     "main": "./src/index.js",
     "scripts": {
