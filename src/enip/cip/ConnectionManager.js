@@ -47,7 +47,7 @@ const TIMEOUT_MPY = 0 //RPIx4
  * @returns {UCMMSendTimeout}
  */
 const generateEncodedTimeout = (timeout, buf) => {
-  if (timeout <= 0 || typeof timeout !== 'number')
+  if (timeout <= 0 || !Number.isInteger(timeout))
     throw new Error('Timeouts Must be Positive Integers')
   if (!Buffer.isBuffer(buf) || buf.length < 2) throw new Error('Invalid Buffer')
 
@@ -88,12 +88,12 @@ const generateEncodedTimeout = (timeout, buf) => {
 const ForwardOpen = {
   build: (otRPI, otConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), otSize = 0x1FF, toRPI = otRPI, toConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), toSize = 0x1FF, serial = 0x1337, ttt = (transport.direction.SERVER | transport.class[3]), path = paths.MESSAGE_ROUTER, timeout = 2000) => {
     if (!Number.isInteger(otRPI) || otRPI > 0xFFFFFFFF || otRPI < 10000 || !Number.isInteger(toRPI) || toRPI > 0xFFFFFFFF || toRPI < 10000) throw new Error('RPI must be >= 10ms')
-    if (typeof toConn !== 'number' || typeof otConn !== 'number' || otConn > 0xFFFF || toConn > 0xFFFF || otConn < 0 || toConn < 0) throw new Error('Invalid Connection Parameter')
-    if (typeof toSize !== 'number' || typeof otSize !== 'number' || otSize > 0xFFFF || toSize > 0xFFFF || otSize < 0 || toSize < 0) throw new Error('Invalid Connection Size')
-    if (typeof serial !== 'number' || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
-    if (typeof ttt !== 'number' || ttt > 255 || ttt < 0 ) throw new Error('Invalid Transport Type/Trigger')
+    if (!Number.isInteger(toConn) || !Number.isInteger(otConn) || otConn > 0xFFFF || toConn > 0xFFFF || otConn < 0 || toConn < 0) throw new Error('Invalid Connection Parameter')
+    if (!Number.isInteger(toSize) || !Number.isInteger(otSize) || otSize > 0xFFFF || toSize > 0xFFFF || otSize < 0 || toSize < 0) throw new Error('Invalid Connection Size')
+    if (!Number.isInteger(serial) || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
+    if (!Number.isInteger(ttt) || ttt > 255 || ttt < 0 ) throw new Error('Invalid Transport Type/Trigger')
     if (!Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
-    if (typeof timeout !== 'number' || timeout < 100) timeout = 1000
+    if (!Number.isInteger(timeout) || timeout < 100) timeout = 1000
 
     const buf = Buffer.alloc((otSize > 0x1FF || toSize > 0x1FF)? 40 : 36)
     generateEncodedTimeout(timeout, buf)
@@ -152,8 +152,8 @@ const ForwardOpen = {
 const ForwardClose = {
   build: (path = Buffer.alloc(0), serial = 0x1337, timeout = 1000) => {
     if (!Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
-    if (typeof serial !== 'number' || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
-    if (typeof timeout !== 'number' || timeout < 100) timeout = 1000
+    if (!Number.isInteger(serial) || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
+    if (!Number.isInteger(timeout) || timeout < 100) timeout = 1000
 
     const buf = Buffer.alloc(12)
     generateEncodedTimeout(timeout, buf)
@@ -192,7 +192,7 @@ const UnconnectedSend = {
     if (!Buffer.isBuffer(msgReq))
       throw new Error('Message Request must be a Buffer')
     if (!Buffer.isBuffer(path)) throw new Error('Path must be a Buffer')
-    if (typeof timeout !== 'number' || timeout < 100) timeout = 1000
+    if (!Number.isInteger(timeout) || timeout < 100) timeout = 1000
 
     const buf = Buffer.allocUnsafe(4)
     generateEncodedTimeout(timeout, buf)
