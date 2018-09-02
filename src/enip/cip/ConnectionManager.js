@@ -73,9 +73,10 @@ const generateEncodedTimeout = (timeout, buf) => {
 /**
  * Builds a Forward Open / Large Forward Open Packet Buffer
  *
- * @param {number} rpi - Request Packet Interval
+ * @param {number} otRPI - O->T Request Packet Interval
  * @param {number} [otConn=(VARIABLE|LOW|P2P)] O->T Connection Parameter
  * @param {number} [otSize=0x1FF] O->T Maximum Connection Size
+ * @param {number} [toRPI=otRPI] - T->O Request Packet Interval
  * @param {number} [toConn=(VARIABLE|LOW|P2P)] T->O Connection Parameter
  * @param {number} [toSize=0x1FF] T->O Maximum Connection Size
  * @param {number} [serial=0x1337] - Connection Serial Number
@@ -85,8 +86,8 @@ const generateEncodedTimeout = (timeout, buf) => {
  * @returns {buffer}
  */
 const ForwardOpen = {
-  build: (rpi, otConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), otSize = 0x1FF, toConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), toSize = 0x1FF, serial = 0x1337, ttt = (transport.direction.SERVER | transport.class[3]), path = paths.MESSAGE_ROUTER, timeout = 2000) => {
-    if (typeof rpi !== 'number' || rpi > 0xFFFFFFFF || rpi < 10000 ) throw new Error('RPI must be >= 10ms')
+  build: (otRPI, otConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), otSize = 0x1FF, toRPI = otRPI, toConn = (connection.size.VARIABLE | connection.priority.LOW | connection.type.P2P), toSize = 0x1FF, serial = 0x1337, ttt = (transport.direction.SERVER | transport.class[3]), path = paths.MESSAGE_ROUTER, timeout = 2000) => {
+    if (!Number.isInteger(otRPI) || otRPI > 0xFFFFFFFF || otRPI < 10000 || !Number.isInteger(toRPI) || toRPI > 0xFFFFFFFF || toRPI < 10000) throw new Error('RPI must be >= 10ms')
     if (typeof toConn !== 'number' || typeof otConn !== 'number' || otConn > 0xFFFF || toConn > 0xFFFF || otConn < 0 || toConn < 0) throw new Error('Invalid Connection Parameter')
     if (typeof toSize !== 'number' || typeof otSize !== 'number' || otSize > 0xFFFF || toSize > 0xFFFF || otSize < 0 || toSize < 0) throw new Error('Invalid Connection Size')
     if (typeof serial !== 'number' || serial > 0xFFFF || serial < 0 ) throw new Error('Invalid Connection Serial Number')
@@ -102,11 +103,11 @@ const ForwardOpen = {
     buf.writeUInt16LE(VENDOR_ID, 12)
     buf.writeUInt32LE(SERIAL_NO, 14)
     buf.writeUInt8(TIMEOUT_MPY, 18) //only applied if timeout is > 10s, else 10s is used
-    buf.writeUInt32LE(1000000, 22) //O->T RPI 1s, set >rpi so that timeout will not occur when waiting
+    buf.writeUInt32LE(otRPI, 22) //O->T RPI default is equal to T->O RPI
     if(buf.length === 36)
       buf.writeUInt16LE(otConn | otSize, 26)
     else buf.writeUInt32LE(otConn << 16 | otSize, 26)
-    buf.writeUInt32LE(rpi, buf.length === 36 ? 28 : 30)	//T->O RPI
+    buf.writeUInt32LE(toRPI, buf.length === 36 ? 28 : 30)	//T->O RPI
     if(buf.length === 36)
       buf.writeUInt16LE(toConn | toSize, 32)
     else buf.writeUInt32LE(toConn << 16 | toSize, 34)
